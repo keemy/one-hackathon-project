@@ -32,6 +32,7 @@ try:
 	username, password = un_pas
 	assert username
 	assert password
+	f.close()
 except:
 	print("Could not open file data.txt, please create data.txt with username and password separated by one newline")
 	sys.exit(1)
@@ -43,6 +44,8 @@ data = urllib.parse.urlencode(values)
 conn = http.client.HTTPSConnection("auth.berkeley.edu")
 conn.request("POST", url, data, headers)
 response = conn.getresponse()
+
+#if authentication sucessfull they send us to candyland for cookies
 if response.status != 302:
     if "The CalNet ID and/or Passphrase you provided are incorrect." in str(response.read()):
         raise Exception("rong username/password")
@@ -55,7 +58,9 @@ conn.close()
 #print(f.read())
 print('\n', theURL,"\n\n\n\n")
 
-cj = http.cookiejar.CookieJar()
+
+#bears need cookies to eat or else they get sad D:
+cj = http.cookiejar.CookieJar() 
 opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
 r = opener.open(theURL)
-print(r.read())
+#print(r.read())
