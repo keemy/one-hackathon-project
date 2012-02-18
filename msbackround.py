@@ -2,8 +2,13 @@ import subprocess
 import hackthon
 import time
 
-networks={"AirBears.Berkeley"}
+networks=set(["AirBears.Berkeley"])
 
+import sys
+class nada():
+	def write(self, *args):
+		pass
+sys.stdout = nada()
 
 def check_for_networks():
     process = subprocess.Popen(["ipconfig"],stdout= subprocess.PIPE)
@@ -17,5 +22,5 @@ def check_for_networks():
 if __name__ == "__main__":
 	while 1:
 		check_for_networks()
-		time.sleep(5)
+		time.sleep(1)
 
