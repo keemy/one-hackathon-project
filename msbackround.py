@@ -17,5 +17,5 @@ def check_for_networks():
 if __name__ == "__main__":
 	while 1:
 		check_for_networks()
-		time.sleep(5)
+		time.sleep(2)
 
