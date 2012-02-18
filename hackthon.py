@@ -23,16 +23,23 @@ hidden = shit[start:end]
 
 #print(hidden,"\n\n\n\n\n")
 #import pdb; pdb.set_trace()
+f=open("data.txt")
 
+un_pas=str(f.read()).split("\n")
+assert len(un_pas)==2
 
-values = { "username": "???", "password": "???", "lt":hidden, "_eventId":"submit" }
+values = { "username": un_pas[0], "password": un_pas[1], "lt":hidden, "_eventId":"submit" }
 
 data = urllib.parse.urlencode(values)
 
 conn = http.client.HTTPSConnection("auth.berkeley.edu")
 conn.request("POST", url, data, headers)
 response = conn.getresponse()
-print(response.status, "    ", response.read())
+if response.status!=302:
+    if "The CalNet ID and/or Passphrase you provided are incorrect." in str(response.read()):
+        raise Exception("rong username/password")
+    else:
+        raise Exception("the fuck happened")
 
 theURL = dict(response.getheaders())["Location"]
 conn.close()
